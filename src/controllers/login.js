@@ -10,22 +10,21 @@ module.exports = async (req, res) => {
     return res.status(400).json({ message: 'Some required fields are missing' });
   }
 
-  const users = await UsersService.getAllUsers();
+  const users = await UsersService.getAllUsersLoginInfos();
 
-  const userExists = users.some((user) => user.email === email && user.password === password);
+  const userExists = users && users
+    .some((user) => user.email === email && user.password === password);
 
-  if (userExists === false) {
+  if (!userExists) {
     return res.status(400).send({ message: 'Invalid fields' });
   }
 
-  if (userExists) {
-    const payload = {
-      email: req.body.email,
-      adm: false,
-    };
+  const payload = {
+    email: req.body.email,
+    adm: false,
+  };
     
-    const token = jwt.sign(payload, JWT_SECRET);
+  const token = jwt.sign(payload, JWT_SECRET);
     
-    return res.status(200).json({ token });
-  }
+  return res.status(200).json({ token });
 };

@@ -1,13 +1,13 @@
 const { User } = require('../models');
 const { validateUser } = require('./validations/userCredentialsValidation');
 
-const getAllUsers = async () => {
+const getAllUsersLoginInfos = async () => {
   const users = await User.findAll({
     attributes: { exclude: ['id', 'displayName', 'image'] },
   });
 
   if (!users || users.length === 0) {
-    return ({ message: 'Nenhum paciente cadastrado' });
+    return ({ message: 'Nenhum user cadastrado' });
   }
 
   return users;
@@ -20,7 +20,7 @@ const createUser = async (user) => {
     return ({ message: error.message });
   }
 
-  const users = await getAllUsers();
+  const users = await getAllUsersLoginInfos();
 
   if (users.length > 0) {
     const usersEmail = users.map((usr) => usr.email);
@@ -37,7 +37,20 @@ const createUser = async (user) => {
   return newUser;
 };
 
+const getAllUsers = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+
+  if (!users || users.length === 0) {
+    return ({ message: 'Nenhum user cadastrado' });
+  }
+
+  return users;
+};
+
 module.exports = {
-  getAllUsers,
+  getAllUsersLoginInfos,
   createUser,
+  getAllUsers,
 };
