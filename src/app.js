@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.post('/login', login);
 app.get('/user', validateJWT, UserControler.getAllUsers);
+app.get('/user/:id', validateJWT, UserControler.getUserById);
 app.post('/user', UserControler.createUser);
 // ...
 

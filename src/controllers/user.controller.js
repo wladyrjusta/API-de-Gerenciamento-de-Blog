@@ -20,7 +20,7 @@ const createUser = async (req, res) => {
     return res.status(201).json({ token });
 };
 
-const getAllUsers = async (req, res) => {
+const getAllUsers = async (_req, res) => {
   const users = await UsersService.getAllUsers();
 
   if (users.message) {
@@ -30,7 +30,19 @@ const getAllUsers = async (req, res) => {
   return res.status(200).json(users);
 };
 
+const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const users = await UsersService.getUserById(id);
+
+  if (users.message) {
+    return res.status(404).json({ message: users.message });
+  }
+
+  return res.status(200).json(users);
+};
+
 module.exports = {
   createUser,
   getAllUsers,
+  getUserById,
 };
