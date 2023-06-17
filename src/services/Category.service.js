@@ -13,6 +13,17 @@ const createCategory = async (category) => {
   return newCategory;
 };
 
+const getAllCategories = async () => {
+    const categories = await Category.findAll();
+  
+    if (!categories || categories.length === 0) {
+      return ({ message: 'Nenhuma category cadastrado' });
+    }
+  
+    return categories;
+  };
+
 module.exports = {
   createCategory,
+  getAllCategories,
 };
