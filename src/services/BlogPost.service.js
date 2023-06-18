@@ -13,7 +13,7 @@ const updatePost = async (post, id) => {
 };
 
 const getAllBlogPostUserCategory = async () => {
-  const listOfBlogpostUserCategory = await BlogPost.findOne({
+  const listOfBlogpostUserCategory = await BlogPost.findAll({
     include: [
       {
         model: User,
