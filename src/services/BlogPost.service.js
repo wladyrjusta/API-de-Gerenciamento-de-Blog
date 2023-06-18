@@ -39,7 +39,7 @@ const getAllBlogPostUserCategory = async () => {
 };
 
 const getAllBlogPostUserCategoryById = async (id) => {
-  const [blogpostUserCategory] = await BlogPost.findAll({
+  const blogpostUserCategory = await BlogPost.findOne({
     where: { id },
     include: [
       {
@@ -61,10 +61,58 @@ const getAllBlogPostUserCategoryById = async (id) => {
   return blogpostUserCategory;
 };
 
+const getAllBlogPostByQueryTitle = async (query) => {
+  const blogpostUserCategoryTitle = await BlogPost.findAll({
+    where: { title: query },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+    }],
+  });
+
+  if (blogpostUserCategoryTitle.length === 0) {
+    return ({ type: null });
+  }
+
+  return blogpostUserCategoryTitle;
+};
+
+const getAllBlogPostByQueryContent = async (query) => {
+  const blogpostUserCategoryContent = await BlogPost.findAll({
+    where: { content: query },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+    }],
+  });
+
+  if (blogpostUserCategoryContent.length === 0) {
+    return ({ type: null });
+  }
+
+  return blogpostUserCategoryContent;
+};
+
 module.exports = {
   createPost,
   updatePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
   deletePost,
+  getAllBlogPostByQueryContent,
+  getAllBlogPostByQueryTitle,
 };

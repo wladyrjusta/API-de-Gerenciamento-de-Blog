@@ -8,6 +8,7 @@ const {
   validatePostCredentials,
   validatePostCredentialsToUpdate,
 } = require('./middlewares/validatePostCredentials');
+const validateQuerySearch = require('./middlewares/validateQuerySearch');
 // ...
 
 const app = express();
@@ -30,6 +31,12 @@ app.post(
   validatePostCredentials,
   validateCategorieIds,
   BlogPostController.createPost,
+);
+app.get(
+  '/post/search',
+  validateJWT,
+  validateQuerySearch,
+  BlogPostController.getAllBlogPostUserCategoryByQuery,
 );
 app.get('/post', validateJWT, BlogPostController.getAllBlogPostUserCategory);
 app.get('/post/:id', validateJWT, BlogPostController.getAllBlogPostUserCategoryById);

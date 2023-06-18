@@ -91,10 +91,25 @@ const getAllBlogPostUserCategoryById = async (req, res) => {
   return res.status(200).json(blogpostUserCategory);
 };
 
+const getAllBlogPostUserCategoryByQuery = async (req, res) => {
+  const { q } = req.query;
+
+  const blogpostUserCategoryTitle = await BlogPostService.getAllBlogPostByQueryTitle(q);
+  const blogpostUserCategoryContent = await BlogPostService.getAllBlogPostByQueryContent(q);
+  if (blogpostUserCategoryTitle.type === null && blogpostUserCategoryContent.type === null) {
+    return res.status(200).json([]); 
+  }
+  if (blogpostUserCategoryTitle.length > 0) return res.status(200).json(blogpostUserCategoryTitle);
+  if (blogpostUserCategoryContent.length > 0) {
+    return res.status(200).json(blogpostUserCategoryContent);
+  }
+};
+
 module.exports = {
   createPost,
   updatePost,
   deletePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
+  getAllBlogPostUserCategoryByQuery,
 };
