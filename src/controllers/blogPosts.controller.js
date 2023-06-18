@@ -63,10 +63,8 @@ const deletePost = async (req, res) => {
       return res.status(401).json({ message: 'Unauthorized user' });
     }
   
-    const deletedPost = await BlogPostService.deletePost(id);
-    if (deletedPost) {
-      return res.status(204).send();
-    }    
+    await BlogPostService.deletePost(id);
+    return res.status(204).send();   
   } catch (error) {
     return res.status(500).json(error);
   }

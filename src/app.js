@@ -23,6 +23,7 @@ app.post('/login', login);
 app.get('/user', validateJWT, UserControler.getAllUsers);
 app.get('/user/:id', validateJWT, UserControler.getUserById);
 app.post('/user', UserControler.createUser);
+app.delete('/user/me', validateJWT, UserControler.deleteUser);
 app.post(
   '/post',
   validateJWT,

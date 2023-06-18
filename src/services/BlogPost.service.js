@@ -13,9 +13,7 @@ const updatePost = async (post, id) => {
 };
 
 const deletePost = async (id) => {
-  const deletedPost = await BlogPost.destroy({ where: { id } });
-
-  return deletedPost;
+  await BlogPost.destroy({ where: { id } });
 };
 
 const getAllBlogPostUserCategory = async () => {

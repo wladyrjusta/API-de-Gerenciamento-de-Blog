@@ -42,8 +42,22 @@ const getUserById = async (req, res) => {
   return res.status(200).json(users);
 };
 
+const deleteUser = async (req, res) => {
+  const token = req.header('Authorization');
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+  
+    await UsersService.deleteUser(decoded.id);
+    return res.status(204).send();   
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
+  deleteUser,
 };
