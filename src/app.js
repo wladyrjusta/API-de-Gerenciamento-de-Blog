@@ -28,6 +28,7 @@ app.post(
   BlogPostController.createPost,
 );
 app.get('/post', validateJWT, BlogPostController.getAllBlogPostUserCategory);
+app.get('/post/:id', validateJWT, BlogPostController.getAllBlogPostUserCategoryById);
 app.post('/categories', validateJWT, CategoryController.createCategory);
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // ...

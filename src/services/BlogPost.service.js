@@ -7,7 +7,7 @@ const createPost = async (post) => {
 };
 
 const getAllBlogPostUserCategory = async () => {
-  const listOfBlogpostUserCategory = await BlogPost.findAll({
+  const listOfBlogpostUserCategory = await BlogPost.findOne({
     include: [
       {
         model: User,
@@ -28,7 +28,31 @@ const getAllBlogPostUserCategory = async () => {
   return listOfBlogpostUserCategory;
 };
 
+const getAllBlogPostUserCategoryById = async (id) => {
+  const [blogpostUserCategory] = await BlogPost.findAll({
+    where: { id },
+    include: [
+      {
+        model: User,
+        as: 'user',
+        attributes: { exclude: ['password'] },
+      },
+      {
+      model: Category,
+      as: 'categories',
+      through: { attributes: [] },
+    }],
+  });
+
+  if (!blogpostUserCategory) {
+    return ({ message: 'Post does not exist' });
+  }
+
+  return blogpostUserCategory;
+};
+
 module.exports = {
   createPost,
   getAllBlogPostUserCategory,
+  getAllBlogPostUserCategoryById,
 };
