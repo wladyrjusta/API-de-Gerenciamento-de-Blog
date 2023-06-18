@@ -1,10 +1,8 @@
 const { PostCategory } = require('../models');
 
-const insertPostCategory = async (categoryId, postId) => {
-  await PostCategory.bulkCreate([
-    { postId, categoryId: categoryId[0] },
-    { postId, categoryId: categoryId[1] },
-  ]);
+const insertPostCategory = async (categoriesId, postId) => {
+  const insertions = categoriesId.map((categoryId) => ({ postId, categoryId }));
+  await PostCategory.bulkCreate(insertions);
 };
 
 module.exports = {

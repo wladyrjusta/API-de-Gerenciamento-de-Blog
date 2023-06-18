@@ -26,6 +26,17 @@ const createPost = async (req, res) => {
   }
 };
 
+const getAllBlogPostUserCategory = async (_req, res) => {
+  const listOfBlogpostUserCategory = await BlogPostService.getAllBlogPostUserCategory();
+
+  if (listOfBlogpostUserCategory.message) {
+    return res.status(404).json(listOfBlogpostUserCategory);
+  }
+
+  return res.status(200).json(listOfBlogpostUserCategory);
+};
+
 module.exports = {
   createPost,
+  getAllBlogPostUserCategory,
 };
