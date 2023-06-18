@@ -46,6 +46,32 @@ const updatePost = async (req, res) => {
   }
 };
 
+const deletePost = async (req, res) => {
+  const token = req.header('Authorization');
+  const { id } = req.params;
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    const post = await BlogPostService.getAllBlogPostUserCategoryById(id);
+
+    if (post.message) {
+      return res.status(404).json(post);
+    }
+
+    if (decoded.id !== post.userId) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
+  
+    const deletedPost = await BlogPostService.deletePost(id);
+    if (deletedPost) {
+      return res.status(204).send();
+    }    
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const getAllBlogPostUserCategory = async (_req, res) => {
   const listOfBlogpostUserCategory = await BlogPostService.getAllBlogPostUserCategory();
 
@@ -70,6 +96,7 @@ const getAllBlogPostUserCategoryById = async (req, res) => {
 module.exports = {
   createPost,
   updatePost,
+  deletePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
 };

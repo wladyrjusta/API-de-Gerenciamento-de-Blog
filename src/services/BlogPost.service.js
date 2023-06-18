@@ -12,6 +12,12 @@ const updatePost = async (post, id) => {
   return updatedPost;
 };
 
+const deletePost = async (id) => {
+  const deletedPost = await BlogPost.destroy({ where: { id } });
+
+  return deletedPost;
+};
+
 const getAllBlogPostUserCategory = async () => {
   const listOfBlogpostUserCategory = await BlogPost.findAll({
     include: [
@@ -62,4 +68,5 @@ module.exports = {
   updatePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
+  deletePost,
 };

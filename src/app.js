@@ -38,6 +38,11 @@ app.put(
   validatePostCredentialsToUpdate,
   BlogPostController.updatePost,
 );
+app.delete(
+  '/post/:id',
+  validateJWT,
+  BlogPostController.deletePost,
+);
 app.post('/categories', validateJWT, CategoryController.createCategory);
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // ...
