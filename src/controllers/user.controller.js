@@ -4,20 +4,21 @@ const { JWT_SECRET } = process.env;
 const { UsersService } = require('../services');
 
 const createUser = async (req, res) => {
-    const newUser = await UsersService.createUser(req.body);
+  const newUser = await UsersService.createUser(req.body);
 
-    if (newUser.message) return res.status(400).send(newUser);
+  if (newUser.message) return res.status(400).send(newUser);
 
-    if (newUser.errorMessage) return res.status(409).json({ message: newUser.errorMessage });
+  if (newUser.errorMessage) return res.status(409).json({ message: newUser.errorMessage });
 
-    const payload = {
-      email: newUser.email,
-      adm: false,
-    };
+  const payload = {
+    id: newUser.id,
+    email: newUser.email,
+    adm: false,
+  };
       
-    const token = jwt.sign(payload, JWT_SECRET);
+  const token = jwt.sign(payload, JWT_SECRET);
       
-    return res.status(201).json({ token });
+  return res.status(201).json({ token });
 };
 
 const getAllUsers = async (_req, res) => {

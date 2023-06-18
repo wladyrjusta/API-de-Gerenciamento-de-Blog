@@ -3,7 +3,7 @@ const { validateUser } = require('./validations/userCredentialsValidation');
 
 const getAllUsersLoginInfos = async () => {
   const users = await User.findAll({
-    attributes: { exclude: ['id', 'displayName', 'image'] },
+    attributes: { exclude: ['displayName', 'image'] },
   });
 
   if (!users || users.length === 0) {

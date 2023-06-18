@@ -14,16 +14,30 @@ const createCategory = async (category) => {
 };
 
 const getAllCategories = async () => {
-    const categories = await Category.findAll();
+  const categories = await Category.findAll();
   
-    if (!categories || categories.length === 0) {
-      return ({ message: 'Nenhuma category cadastrado' });
-    }
+  if (!categories || categories.length === 0) {
+    return ({ message: 'Nenhuma category cadastrado' });
+  }
   
-    return categories;
-  };
+  return categories;
+};
+
+const getAllCategoriesIds = async (categoriesIds) => {
+  const { count } = await Category.findAndCountAll({
+    where: { id: categoriesIds },
+    attributes: { exclude: ['name'] },
+  });
+
+  if (!count || count === 0) {
+    return { message: 'one or more "categoryIds" not found' };
+  }
+
+  return count;
+};
 
 module.exports = {
   createCategory,
   getAllCategories,
+  getAllCategoriesIds,
 };

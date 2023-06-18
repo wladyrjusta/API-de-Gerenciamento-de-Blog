@@ -19,7 +19,10 @@ module.exports = async (req, res) => {
     return res.status(400).send({ message: 'Invalid fields' });
   }
 
+  const user = users.filter((u) => u.email === email);
+
   const payload = {
+    id: user[0].id,
     email: req.body.email,
     adm: false,
   };
