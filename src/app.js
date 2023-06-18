@@ -4,7 +4,10 @@ const { login } = require('./controllers');
 const { UserControler, CategoryController, BlogPostController } = require('./controllers');
 const validateJWT = require('./middlewares/validateJWT');
 const validateCategorieIds = require('./middlewares/validateCategorieIds');
-const { validatePostCredentials } = require('./middlewares/validatePostCredentials');
+const {
+  validatePostCredentials,
+  validatePostCredentialsToUpdate,
+} = require('./middlewares/validatePostCredentials');
 // ...
 
 const app = express();
@@ -29,6 +32,12 @@ app.post(
 );
 app.get('/post', validateJWT, BlogPostController.getAllBlogPostUserCategory);
 app.get('/post/:id', validateJWT, BlogPostController.getAllBlogPostUserCategoryById);
+app.put(
+  '/post/:id',
+  validateJWT,
+  validatePostCredentialsToUpdate,
+  BlogPostController.updatePost,
+);
 app.post('/categories', validateJWT, CategoryController.createCategory);
 app.get('/categories', validateJWT, CategoryController.getAllCategories);
 // ...

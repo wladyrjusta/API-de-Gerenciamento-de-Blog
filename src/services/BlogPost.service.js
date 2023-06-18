@@ -6,6 +6,12 @@ const createPost = async (post) => {
   return newPost;
 };
 
+const updatePost = async (post, id) => {
+  const updatedPost = await BlogPost.update(post, { where: { id } });
+
+  return updatedPost;
+};
+
 const getAllBlogPostUserCategory = async () => {
   const listOfBlogpostUserCategory = await BlogPost.findOne({
     include: [
@@ -53,6 +59,7 @@ const getAllBlogPostUserCategoryById = async (id) => {
 
 module.exports = {
   createPost,
+  updatePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
 };

@@ -26,6 +26,26 @@ const createPost = async (req, res) => {
   }
 };
 
+const updatePost = async (req, res) => {
+  const token = req.header('Authorization');
+  const { id } = req.params;
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+
+    if (decoded.id !== Number(id)) {
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
+
+    await BlogPostService.updatePost(req.body, id);
+
+    const updatedPost = await BlogPostService.getAllBlogPostUserCategoryById(id);
+    return res.status(200).json(updatedPost);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
+
 const getAllBlogPostUserCategory = async (_req, res) => {
   const listOfBlogpostUserCategory = await BlogPostService.getAllBlogPostUserCategory();
 
@@ -49,6 +69,7 @@ const getAllBlogPostUserCategoryById = async (req, res) => {
 
 module.exports = {
   createPost,
+  updatePost,
   getAllBlogPostUserCategory,
   getAllBlogPostUserCategoryById,
 };
